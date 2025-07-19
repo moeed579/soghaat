@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soghaat Restaurant Karahi & Grill</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* Header/Navigation Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #222;
+            text-transform: uppercase;
+            z-index: 101;
+        }
+        
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            z-index: 101;
+            font-size: 24px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            letter-spacing: 1px;
+            font-size: 13px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            padding-bottom: 5px;
+        }
+        
+        nav ul li a:hover {
+            color: #c49b63;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: #c49b63;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section Styles */
+        .hero {
+            height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            padding-top: 70px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 100px);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+            font-weight: 300;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+        
+        .hero p {
+            font-size: clamp(18px, 3vw, 24px);
+            letter-spacing: 5px;
+            margin-bottom: 30px;
+            font-weight: 300;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .subtext {
+            font-size: 14px;
+            letter-spacing: 4px;
+            margin-top: 40px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+            position: relative;
+        }
+        
+        .subtext::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Page Content Styles */
+        .page-content {
+            padding: 80px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #222;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 1px;
+            background-color: #c49b63;
+        }
+
+        /* Menu Page Styles */
+        .menu-section {
+            margin-bottom: 40px;
+        }
+
+        .menu-section h3 {
+            font-size: 20px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: #c49b63;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item-name {
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .menu-item-price {
+            color: #c49b63;
+            font-weight: 500;
+        }
+
+        .menu-item-desc {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Reservations Page Styles */
+        .reservation-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            background-color: #fff;
+        }
+
+        .form-group textarea {
+            height: 120px;
+        }
+
+        .submit-btn {
+            background-color: #c49b63;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #b38958;
+        }
+
+        /* Blog Page Styles */
+        .blog-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .blog-post {
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .blog-post img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-post-content {
+            padding: 20px;
+        }
+
+        .blog-post-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .blog-post-date {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .blog-post-excerpt {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            color: #c49b63;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        /* Features Page Styles */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-icon {
+            font-size: 36px;
+            color: #c49b63;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Shop Page Styles */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-title {
+            font-size: 15px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .product-price {
+            color: #c49b63;
+            font-weight: 500;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .add-to-cart {
+            background-color: #c49b63;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .add-to-cart:hover {
+            background-color: #b38958;
+        }
+
+        /* Contact Page Styles */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .contact-info h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        .contact-detail {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .contact-detail i {
+            color: #c49b63;
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+
+        .contact-detail span {
+            flex: 1;
+        }
+
+        .social-links {
+            margin-top: 25px;
+        }
+
+        .social-links a {
+            color: #333;
+            margin-right: 15px;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #c49b63;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #222;
+            color: #999;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer-logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: white;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .footer-links li {
+            margin: 0 10px 10px;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #c49b63;
+        }
+
+        .copyright {
+            margin-top: 25px;
+        }
+
+        /* Mobile Menu Styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: white;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                padding-top: 80px;
+                z-index: 100;
+            }
+            
+            nav.active {
+                right: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            nav ul li {
+                margin: 0 0 20px 0;
+            }
+            
+            nav ul li a {
+                font-size: 15px;
+                padding: 10px 0;
+                display: block;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">Soghaat Restaurant Karahi & Grill</div>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">HOME</a></li>
+                <li><a href="#reservations">RESERVATIONS</a></li>
+                <li><a href="#menu">MENU</a></li>
+                <li><a href="#blog">BLOG</a></li>
+                <li><a href="#features">FEATURES</a></li>
+               
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Home Page -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Soghaat Restaurant Karahi & Grill</h1>
+            <p>READY TO BE OPENED</p>
+            <div class="subtext">STYLORS</div>
+        </div>
+    </section>
+
+    <!-- Menu Page -->
+    <section id="menu" class="page-content">
+        <h2 class="page-title">Our Menu</h2>
+        
+        <div class="menu-section">
+            <h3>Breakfast Menu</h3>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Desi Omelette</div>
+                <div class="menu-item-price">£3.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Nihari</div>
+                <div class="menu-item-price">£5.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Paya</div>
+                <div class="menu-item-price">£5.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Maghaz</div>
+                <div class="menu-item-price">£5.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Lahori Channay</div>
+                <div class="menu-item-price">£4.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Saag</div>
+                <div class="menu-item-price">£4.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Halwa</div>
+                <div class="menu-item-price">£2.50</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Paratha</div>
+                <div class="menu-item-price">£1.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Saag Paratha</div>
+                <div class="menu-item-price">£2.50</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Keema Paratha</div>
+                <div class="menu-item-price">£2.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Aloo Paratha</div>
+                <div class="menu-item-price">£2.50</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Makki Roti</div>
+                <div class="menu-item-price">£1.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Plain Naan</div>
+                <div class="menu-item-price">£0.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Kulcha Naan</div>
+                <div class="menu-item-price">£1.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Tandoori Roti</div>
+                <div class="menu-item-price">£0.80</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Puri</div>
+                <div class="menu-item-price">£0.60</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Halwa Puri Thali</div>
+                <div class="menu-item-price">£6.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">2 Puris, Halwa, Channay & 1 Tea</div>
+                <div class="menu-item-price">£2.50</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Tea</div>
+                <div class="menu-item-price">£1.00</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Desi Tea</div>
+                <div class="menu-item-price">£2.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Pink Tea</div>
+                <div class="menu-item-price">£2.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">English Tea</div>
+                <div class="menu-item-price">£0.99</div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h3>English Breakfast</h3>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Egg, Beans, Toast, Hash Brown (comes with choice of tea)</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h3>Veg Dishes</h3>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Mix Vegetables</div>
+                <div class="menu-item-price">£6.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Saag Aloo</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Bhindi</div>
+                <div class="menu-item-price">£6.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Daal Maash</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Kerela</div>
+                <div class="menu-item-price">£6.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Chana Daal</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Lahori Channay</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h3>Sandwiches</h3>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Chicken Tikka Sandwich</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Seekh Kebab Sandwich</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Mix Kebab Sandwich</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h3>Biryani</h3>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Chicken Biryani</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Lamb Biryani</div>
+                <div class="menu-item-price">£6.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Vegetable Biryani</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Junglee Pilau</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h3>Burgers</h3>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Zinger Burger</div>
+                <div class="menu-item-price">£6.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Cheese Burger</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Peri Peri Burger</div>
+                <div class="menu-item-price">£6.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Veg Burger</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Fish Burger</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Zinger Wrap</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Chicken Nuggets</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Fish Bites</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h3>Sundries</h3>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Pulao Rice</div>
+                <div class="menu-item-price">£2.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Boiled Rice</div>
+                <div class="menu-item-price">£2.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Naan</div>
+                <div class="menu-item-price">£1.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Garlic Naan</div>
+                <div class="menu-item-price">£1.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Kulcha Naan</div>
+                <div class="menu-item-price">£2.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Tandoori Roti</div>
+                <div class="menu-item-price">£0.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Chapati</div>
+                <div class="menu-item-price">£0.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Special Green Salad</div>
+                <div class="menu-item-price">£1.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Chips</div>
+                <div class="menu-item-price">£1.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Raita</div>
+                <div class="menu-item-price">£1.49</div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h3>Starters</h3>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Onion Pakora</div>
+                <div class="menu-item-price">£3.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Veg Samosa</div>
+                <div class="menu-item-price">£2.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Meat Samosa</div>
+                <div class="menu-item-price">£3.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Seekh Kebab (Chicken)</div>
+                <div class="menu-item-price">£3.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Seekh Kebab (Lamb)</div>
+                <div class="menu-item-price">£4.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Chicken Tikka</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Chicken Wings</div>
+                <div class="menu-item-price">£3.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Malai Boti (Thigh)</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Lamb Chops</div>
+                <div class="menu-item-price">£6.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Masala Fish</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Mix Grill</div>
+                <div class="menu-item-price">£15.99</div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h3>Soghaat Special Grill</h3>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Desi Chargha</div>
+                <div class="menu-item-price">£9.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Peri Peri Chicken (Full)</div>
+                <div class="menu-item-price">£9.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Peri Peri Chicken (Half)</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Beef Chilli with Junglee Pulao</div>
+                <div class="menu-item-price">£7.99</div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h3>Chef Special</h3>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Desi Murgh Shorba</div>
+                <div class="menu-item-price">£6.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Nihari</div>
+                <div class="menu-item-price">£8.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Maghaaz</div>
+                <div class="menu-item-price">£8.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Paya</div>
+                <div class="menu-item-price">£8.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Fish Karahi</div>
+                <div class="menu-item-price">£7.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">White Meat Handi</div>
+                <div class="menu-item-price">£8.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Kaleji</div>
+                <div class="menu-item-price">£7.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Ojhri</div>
+                <div class="menu-item-price">£7.99</div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h3>Soghaat Special Karahi</h3>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Desi Murgh Karahi (1kg)</div>
+                <div class="menu-item-price">£21.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Lamb Karahi (1kg)</div>
+                <div class="menu-item-price">£27.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Lamb Karahi (1/2kg)</div>
+                <div class="menu-item-price">£15.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Chicken Karahi (1kg)</div>
+                <div class="menu-item-price">£19.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Chicken Karahi (1/2kg)</div>
+                <div class="menu-item-price">£10.99</div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h3>Drinks & Mojitos</h3>
+            
+            <h4>Drinks</h4>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Cans</div>
+                <div class="menu-item-price">£1.20</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Jug of Drinks</div>
+                <div class="menu-item-price">£4.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Jug of Mango Lassi</div>
+                <div class="menu-item-price">£6.49</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Jug of Sweet Lassi</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Jug of Salty Lassi</div>
+                <div class="menu-item-price">£5.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Bottle of Water</div>
+                <div class="menu-item-price">£0.99</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Desi Tea</div>
+                <div class="menu-item-price">£1.20</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Pink Tea</div>
+                <div class="menu-item-price">£1.50</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">English Tea</div>
+                <div class="menu-item-price">£1.00</div>
+            </div>
+            
+            <h4>Mojitos</h4>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Virgin Mojito</div>
+                <div class="menu-item-price">£4.95</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Passion Tropic</div>
+                <div class="menu-item-price">£4.95</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Coco Lada</div>
+                <div class="menu-item-price">£4.95</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Strawberry Mojito</div>
+                <div class="menu-item-price">£4.95</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-item-name">Raspberry Mojito</div>
+                <div class="menu-item-price">£4.95</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservations Page -->
+    <section id="reservations" class="page-content">
+        <h2 class="page-title">Make a Reservation</h2>
+        
+        <div class="reservation-form">
+            <form>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="time">Time</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="guests">Number of Guests</label>
+                    <select id="guests" name="guests" required>
+                        <option value="1">1 Person</option>
+                        <option value="2">2 People</option>
+                        <option value="3">3 People</option>
+                        <option value="4">4 People</option>
+                        <option value="5">5 People</option>
+                        <option value="6">6 People</option>
+                        <option value="7">7 People</option>
+                        <option value="8">8+ People</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="special-requests">Special Requests</label>
+                    <textarea id="special-requests" name="special-requests"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Book Table</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Blog Page -->
+    <section id="blog" class="page-content">
+        <h2 class="page-title">Our Blog</h2>
+        
+        <div class="blog-posts">
+            <div class="blog-post">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Wine Pairing">
+                <div class="blog-post-content">
+                    <h3 class="blog-post-title">The Art of Wine Pairing</h3>
+                    <span class="blog-post-date">June 15, 2023</span>
+                    <p class="blog-post-excerpt">Discover how to perfectly pair wines with our seasonal dishes to enhance your dining experience...</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+            
+            <div class="blog-post">
+                <img src="https://images.unsplash.com/photo-1510626176961-4b57d4fbad03?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Chef Cooking">
+                <div class="blog-post-content">
+                    <h3 class="blog-post-title">Meet Our Head Chef</h3>
+                    <span class="blog-post-date">May 28, 2023</span>
+                    <p class="blog-post-excerpt">An exclusive interview with Chef Marco Rossi about his culinary journey and philosophy...</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+            
+            <div class="blog-post">
+                <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Seasonal Ingredients">
+                <div class="blog-post-content">
+                    <h3 class="blog-post-title">Summer Seasonal Ingredients</h3>
+                    <span class="blog-post-date">May 10, 2023</span>
+                    <p class="blog-post-excerpt">Explore the fresh, seasonal ingredients we're using this summer and why they matter...</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Page -->
+    <section id="features" class="page-content">
+        <h2 class="page-title">Our Features</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3 class="feature-title">Fine Dining</h3>
+                <p class="feature-desc">Experience our exquisite menu crafted by award-winning chefs using only the finest ingredients sourced locally and internationally.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3 class="feature-title">Private Events</h3>
+                <p class="feature-desc">Host your special occasions in our elegant private dining rooms, accommodating from 10 to 100 guests with customized menus.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <h3 class="feature-title">Seasonal Menus</h3>
+                <p class="feature-desc">We change our menu seasonally to ensure the freshest ingredients and to showcase the best flavors of each time of year.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cocktail"></i>
+                </div>
+                <h3 class="feature-title">Craft Cocktails</h3>
+                <p class="feature-desc">Our mixologists create innovative cocktails using premium spirits, house-made syrups, and fresh ingredients.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cheese"></i>
+                </div>
+                <h3 class="feature-title">Cheese Selection</h3>
+                <p class="feature-desc">Indulge in our curated cheese board featuring artisanal cheeses from around the world, served with house-made accompaniments.</p>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Contact Page -->
+    <section id="contact" class="page-content">
+        <h2 class="page-title">Contact Us</h2>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                
+                <div class="contact-detail">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>34-36 Worksp rd S9 3TJ, Sheffield UK</span>
+                </div>
+                
+                <div class="contact-detail">
+                    <i class="fas fa-phone"></i>
+                    <span>(+44)1146985050</span>
+                </div>
+                
+                <div class="contact-detail">
+                    <i class="fas fa-envelope"></i>
+                    <span>to be added </span>
+                </div>
+                
+                <div class="contact-detail">
+                    <i class="fas fa-clock"></i>
+                    <span>
+                        Monday - Thursday: 9:00 AM - 11:00 PM<br>
+                        Friday - Saturday: 3:00 PM - 11:30 PM<br>
+                        Sunday: 9:00 PM - 11:00 PM
+                    </span>
+                </div>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-yelp"></i></a>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label for="contact-name">Name</label>
+                        <input type="text" id="contact-name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-email">Email</label>
+                        <input type="email" id="contact-email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-subject">Subject</label>
+                        <input type="text" id="contact-subject" name="subject" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-message">Message</label>
+                        <textarea id="contact-message" name="message" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Soghaat</div>
+        <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            
+        </ul>
+        <div class="copyright">
+            &copy; 2025 FORTIVRA TECH.
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const nav = document.querySelector('nav');
+            
+            menuToggle.addEventListener('click', function() {
+                nav.classList.toggle('active');
+            });
+            
+            // Close menu when clicking on a link
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    nav.classList.remove('active');
+                });
+            });
+            
+            // Page navigation
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            // Hide all page content except home
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Navigation click handler
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    
+                    // Hide all sections except the target
+                    sections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.style.display = 'block';
+                        } else if (section.id !== 'home') {
+                            section.style.display = 'none';
+                        }
+                    });
+                    
+                    // Handle home page separately
+                    if (targetId === 'home') {
+                        document.querySelector('.hero').style.display = 'flex';
+                        document.querySelectorAll('.page-content').forEach(page => {
+                            page.style.display = 'none';
+                        });
+                    } else {
+                        document.querySelector('.hero').style.display = 'none';
+                    }
+                    
+                    // Scroll to top
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            // Auto-scroll to top on page load
+            window.scrollTo(0, 0);
+        });
+    </script>
+</body>
+</html>
